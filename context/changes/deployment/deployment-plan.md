@@ -34,19 +34,19 @@
 - [x] Keep the API response and the web health endpoint free of external integration dependencies so deploy verification stays deterministic.
 
 ### Phase 2: Wire Railway services and database
-- [ ] Confirm Phase 0 is complete: `railway status` must show the linked project with `web`, `api`, and PostgreSQL resources.
-- [ ] Configure the `web` service from the repo root with the build/start commands above and a healthcheck path of `/health`.
-- [ ] Configure the `api` service from the repo root with the build/start commands above and a healthcheck path of `/api/health`.
-- [ ] Provision PostgreSQL in the same Railway project using the Railway dashboard (Add Service → Database → PostgreSQL).
-- [ ] Wire the database to the `api` service by adding a Railway variable reference in the `api` service environment: set `DATABASE_URL` to `${{Postgres.DATABASE_URL}}` — Railway resolves this reference automatically at runtime so the connection string is never stored as plaintext in the plan or in source.
-- [ ] Confirm the variable is injected by running `railway variables --service api --environment production` after linking; `DATABASE_URL` must appear.
-- [ ] Do not wire `DATABASE_URL` to the `web` service — the Angular SSR server does not connect to the database directly.
-- [ ] Keep the API private initially unless a real external consumer needs a public ingress point.
-- [ ] Keep `NODE_ENV=production` set in Railway for both app services.
-- [ ] Do not enable preview/PR environments in this first pass.
+- [x] Confirm Phase 0 is complete: `railway status` must show the linked project with `web`, `api`, and PostgreSQL resources.
+- [x] Configure the `web` service from the repo root with the build/start commands above and a healthcheck path of `/health`.
+- [x] Configure the `api` service from the repo root with the build/start commands above and a healthcheck path of `/api/health`.
+- [x] Provision PostgreSQL in the same Railway project using the Railway dashboard (Add Service → Database → PostgreSQL).
+- [x] Wire the database to the `api` service by adding a Railway variable reference in the `api` service environment: set `DATABASE_URL` to `${{Postgres.DATABASE_URL}}` — Railway resolves this reference automatically at runtime so the connection string is never stored as plaintext in the plan or in source.
+- [x] Confirm the variable is injected by running `railway variables --service api --environment production` after linking; `DATABASE_URL` must appear.
+- [x] Do not wire `DATABASE_URL` to the `web` service — the Angular SSR server does not connect to the database directly.
+- [x] Keep the API private initially unless a real external consumer needs a public ingress point.
+- [x] ~~Keep `NODE_ENV=production` set in Railway for both app services.~~ Not set manually — Railpack manages NODE_ENV automatically (development during install, production at runtime).
+- [x] Do not enable preview/PR environments in this first pass.
 
 ### Phase 3: Deploy commands and when to run them
-- [ ] Use the following Railway CLI sequence for the first local validation pass, from the repo root:
+- [x] Use the following Railway CLI sequence for the first local validation pass, from the repo root:
 ```bash
 railway up --service api --environment production
 railway logs --latest --service api --environment production --build
@@ -56,11 +56,11 @@ railway logs --latest --service web --environment production --build
 railway logs --latest --service web --environment production
 railway deployment list --service web --environment production --json
 ```
-- [ ] Use `railway up` in attached mode for the first manual deploy so build and deploy logs stay visible in the terminal.
-- [ ] Use `railway logs --latest` after deploys to confirm runtime startup, not just build success.
-- [ ] Use `railway deployment list --json` after each service deploy so the latest deployment ID and status are easy to inspect in automation.
-- [ ] Use `railway redeploy` only for recovery cases such as environment-variable-only changes or a clean rebuild of the same code.
-- [ ] Do not use `railway deploy` for app code in this plan; reserve it for Railway templates such as PostgreSQL if you choose to create templates by CLI later.
+- [x] Use `railway up` in attached mode for the first manual deploy so build and deploy logs stay visible in the terminal.
+- [x] Use `railway logs --latest` after deploys to confirm runtime startup, not just build success.
+- [x] Use `railway deployment list --json` after each service deploy so the latest deployment ID and status are easy to inspect in automation.
+- [x] Use `railway redeploy` only for recovery cases such as environment-variable-only changes or a clean rebuild of the same code.
+- [x] Do not use `railway deploy` for app code in this plan; reserve it for Railway templates such as PostgreSQL if you choose to create templates by CLI later.
 
 ### Phase 4: Add CI for auto-deploy after merge to `master`
 - [x] Add a GitHub Actions workflow at `.github/workflows/railway-deploy.yml`.
@@ -80,12 +80,12 @@ railway deployment list --service web --environment production --json
 - [x] Keep deployment failure behavior strict: if either service fails to build or deploy, the workflow must fail the merge deployment.
 
 ### Phase 5: External integrations and edge-case support
-- [ ] Document that `apps/web/proxy.conf.json` is only for local development and must not be relied on in production.
-- [ ] If a browser-facing integration is added later, introduce an explicit runtime base URL and origin allowlist instead of using the dev proxy.
-- [ ] If OAuth, email, webhook, or storage integrations are added later, register per-environment callback URLs and secrets in Railway variables before enabling the integration.
-- [ ] If uploads or generated media become a product feature, move them to object storage; do not rely on container-local filesystem persistence.
-- [ ] If Railway healthchecks fail because the app listens on the wrong host or port, fix the bind target first; only increase timeout settings after confirming the app is reachable.
-- [ ] If the local Angular web build reports `listen EPERM: operation not permitted ::1`, treat that as a local sandbox artifact and validate the same build in a normal shell or in Railway logs before changing app code.
+- [x] Document that `apps/web/proxy.conf.json` is only for local development and must not be relied on in production. Verified: only referenced in `project.json` under the `serve` target — not included in production builds.
+- [x] If a browser-facing integration is added later, introduce an explicit runtime base URL and origin allowlist instead of using the dev proxy.
+- [x] If OAuth, email, webhook, or storage integrations are added later, register per-environment callback URLs and secrets in Railway variables before enabling the integration.
+- [x] If uploads or generated media become a product feature, move them to object storage; do not rely on container-local filesystem persistence.
+- [x] If Railway healthchecks fail because the app listens on the wrong host or port, fix the bind target first; only increase timeout settings after confirming the app is reachable.
+- [x] If the local Angular web build reports `listen EPERM: operation not permitted ::1`, treat that as a local sandbox artifact and validate the same build in a normal shell or in Railway logs before changing app code.
 
 ### Phase 6: Rollback and production support
 - [ ] Rehearse a rollback once the first production deploy is stable, using Railway deployment history.
