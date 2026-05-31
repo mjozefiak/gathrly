@@ -38,6 +38,13 @@ app.use(
 );
 
 /**
+ * Health check endpoint for Railway
+ */
+app.get('/healthz', (req, res) => {
+  res.status(200).send('ok');
+});
+
+/**
  * Handle all other requests by rendering the Angular application.
  */
 app.use('/**', (req, res, next) => {
