@@ -40,7 +40,7 @@ app.use(
 /**
  * Health check endpoint for Railway
  */
-app.get('/healthz', (req, res) => {
+app.get('/health', (req, res) => {
   res.status(200).send('ok');
 });
 
