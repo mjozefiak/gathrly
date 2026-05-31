@@ -2,7 +2,12 @@
   "name": "@bootstrap-scaffold/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build:web": "npx nx build web",
+    "start:web": "node dist/apps/web/server/server.mjs",
+    "build:api": "npx nx build api",
+    "start:api": "node dist/apps/api/main.js"
+  },
   "private": true,
   "dependencies": {
     "@angular-devkit/build-angular": "~21.2.0",
