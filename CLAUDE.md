@@ -1,0 +1,1 @@
+For all repository guidelines, instructions, and operational conventions, refer to AGENTS.md.
