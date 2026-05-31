@@ -14,24 +14,24 @@
 
 > These steps must be completed manually before handing off to an agent. The agent assumes all items here are already done.
 
-- [ ] Install Railway CLI locally
-- [ ] Authenticate locally: `railway login` then verify with `railway whoami`
-- [ ] Create the Railway project in the dashboard and add three resources: `web`, `api`, and PostgreSQL
-- [ ] Link the local repo to the Railway project: `railway link`
-- [ ] Confirm the link with `railway status`
-- [ ] Add root npm scripts in [`package.json`](../../../package.json) for stable Railway commands:
+- [x] Install Railway CLI locally
+- [x] Authenticate locally: `railway login` then verify with `railway whoami`
+- [x] Create the Railway project in the dashboard and add three resources: `web`, `api`, and PostgreSQL
+- [x] Link the local repo to the Railway project: `railway link`
+- [x] Confirm the link with `railway status`
+- [x] Add root npm scripts in [`package.json`](../../../package.json) for stable Railway commands:
   - `build:web` -> `npx nx build web`
   - `start:web` -> `node dist/apps/web/server/server.mjs`
   - `build:api` -> `npx nx build api`
   - `start:api` -> `node dist/apps/api/main.js`
-- [ ] Store a scoped `RAILWAY_TOKEN` (project/environment scope only) in GitHub Secrets for CI use
-- [ ] Leave [`apps/web/proxy.conf.json`](../../../apps/web/proxy.conf.json) as development-only — do not touch it
+- [x] Store a scoped `RAILWAY_TOKEN` (project/environment scope only) in GitHub Secrets for CI use
+- [x] Leave [`apps/web/proxy.conf.json`](../../../apps/web/proxy.conf.json) as development-only — do not touch it
 
 ### Phase 1: Add production health endpoints
-- [ ] Add a simple health endpoint to [`apps/web/src/server.ts`](../../../apps/web/src/server.ts) before the SSR catch-all, such as `GET /health` returning `200`.
-- [ ] Add a simple health endpoint to [`apps/api/src/app/app.controller.ts`](../../../apps/api/src/app/app.controller.ts), exposed as `GET /api/health`, returning a tiny JSON payload. Use `@Get('health')` on the existing root `@Controller()` — `main.ts` already sets `globalPrefix = 'api'`, so the route resolves to `/api/health` automatically. Do not write `@Get('/api/health')`.
-- [ ] Keep both servers bound to Railway’s injected `PORT`; do not hard-code a production port override.
-- [ ] Keep the API response and the web health endpoint free of external integration dependencies so deploy verification stays deterministic.
+- [x] Add a simple health endpoint to [`apps/web/src/server.ts`](../../../apps/web/src/server.ts) before the SSR catch-all, such as `GET /health` returning `200`.
+- [x] Add a simple health endpoint to [`apps/api/src/app/app.controller.ts`](../../../apps/api/src/app/app.controller.ts), exposed as `GET /api/health`, returning a tiny JSON payload. Use `@Get(‘health’)` on the existing root `@Controller()` — `main.ts` already sets `globalPrefix = ‘api’`, so the route resolves to `/api/health` automatically. Do not write `@Get(‘/api/health’)`.
+- [x] Keep both servers bound to Railway’s injected `PORT`; do not hard-code a production port override.
+- [x] Keep the API response and the web health endpoint free of external integration dependencies so deploy verification stays deterministic.
 
 ### Phase 2: Wire Railway services and database
 - [ ] Confirm Phase 0 is complete: `railway status` must show the linked project with `web`, `api`, and PostgreSQL resources.
@@ -63,21 +63,21 @@ railway deployment list --service web --environment production --json
 - [ ] Do not use `railway deploy` for app code in this plan; reserve it for Railway templates such as PostgreSQL if you choose to create templates by CLI later.
 
 ### Phase 4: Add CI for auto-deploy after merge to `master`
-- [ ] Add a GitHub Actions workflow at `.github/workflows/railway-deploy.yml`.
-- [ ] Trigger the workflow on push to the protected default branch (`master`).
-- [ ] Make the workflow deploy in order:
+- [x] Add a GitHub Actions workflow at `.github/workflows/railway-deploy.yml`.
+- [x] Trigger the workflow on push to the protected default branch (`master`).
+- [x] Make the workflow deploy in order:
   - API first
   - Web second
-- [ ] In the workflow, install the Railway CLI, then run:
+- [x] In the workflow, install the Railway CLI, then run:
 ```bash
 railway up --ci --service api --environment production
 railway up --ci --service web --environment production
 railway deployment list --service api --environment production --json
 railway deployment list --service web --environment production --json
 ```
-- [ ] Use `--ci` in GitHub Actions so the job streams build logs and exits cleanly for automation.
-- [ ] Add concurrency protection so a newer merge cancels an older in-flight deploy job instead of racing it.
-- [ ] Keep deployment failure behavior strict: if either service fails to build or deploy, the workflow must fail the merge deployment.
+- [x] Use `--ci` in GitHub Actions so the job streams build logs and exits cleanly for automation.
+- [x] Add concurrency protection so a newer merge cancels an older in-flight deploy job instead of racing it.
+- [x] Keep deployment failure behavior strict: if either service fails to build or deploy, the workflow must fail the merge deployment.
 
 ### Phase 5: External integrations and edge-case support
 - [ ] Document that `apps/web/proxy.conf.json` is only for local development and must not be relied on in production.
