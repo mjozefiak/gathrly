@@ -3,7 +3,7 @@ project: "Gathrly"
 version: 1
 status: draft
 created: 2026-05-31
-updated: 2026-05-31
+updated: 2026-06-07
 prd_version: 1
 main_goal: market-feedback
 top_blocker: none
@@ -28,7 +28,8 @@ Independent tech/community organizers need a fast way to publish a credible even
 | ID   | Change ID                 | Outcome (user can ...)                                                              | Prerequisites | PRD refs                              | Status   |
 | ---- | ------------------------- | ----------------------------------------------------------------------------------- | ------------- | ------------------------------------- | -------- |
 | F-01 | data-persistence-baseline | (foundation) DB provisioned, ORM configured, migration workflow ready               | —             | Access Control, FR-001–FR-016         | ready    |
-| S-01 | organizer-auth            | register via admin invite, log in as organizer; admin can log in and invite          | F-01          | FR-001, FR-009, FR-010, FR-011, US-02 | proposed |
+| F-02 | frontend-ui-foundation    | (foundation) boilerplate removed, UI library configured, design tokens + style set  | —             | FR-004, FR-014–FR-016, US-01          | ready    |
+| S-01 | organizer-auth            | register via admin invite, log in as organizer; admin can log in and invite          | F-01, F-02    | FR-001, FR-009, FR-010, FR-011, US-02 | proposed |
 | S-02 | event-publish-flow        | create an event, publish it, and share a polished public page                       | S-01          | FR-002, FR-003, FR-005, US-01         | proposed |
 | S-03 | attendee-signup-loop      | sign up on a public page; organizer sees signup count and list                      | S-02          | FR-006, FR-007, FR-008, US-01         | proposed |
 | S-04 | event-customization       | select template, customize colors and fonts with live preview; page renders styled  | S-02          | FR-004, FR-014, FR-015, FR-016, US-01 | proposed |
@@ -40,8 +41,8 @@ Navigation aid — groups items that share a Prerequisites chain. Canonical orde
 
 | Stream | Theme              | Chain                                | Note                                                                 |
 | ------ | ------------------ | ------------------------------------ | -------------------------------------------------------------------- |
-| A      | Core validation    | `F-01` → `S-01` → `S-02` → `S-03`  | North star path — reaches the signup validation milestone first.     |
-| B      | Visual ownership   | `S-04`                               | Joins Stream A at `S-02`. The product differentiator; parallel with S-03. |
+| A      | Core validation    | `F-01` / `F-02` → `S-01` → `S-02` → `S-03` | North star path. F-01 (data) and F-02 (frontend) are parallel foundations that both feed S-01. |
+| B      | Visual ownership   | `S-04`                               | Joins Stream A at `S-02`; builds on F-02's design tokens. The product differentiator; parallel with S-03. |
 | C      | Admin operations   | `S-05`                               | Joins Stream A at `S-01`. Parallel with S-02 onward.                 |
 
 ## Baseline
@@ -65,10 +66,23 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **PRD refs:** Access Control, FR-001–FR-016 (all require persistent storage)
 - **Unlocks:** S-01 (user table), S-02 (event table), S-03 (signup table), S-04 (customization data), S-05 (organizer accounts)
 - **Prerequisites:** —
-- **Parallel with:** —
+- **Parallel with:** F-02
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Sequenced first because every vertical slice needs persistence; the ORM choice affects all downstream schemas. Low risk — standard setup on an already-configured Railway target.
+- **Status:** ready
+
+### F-02: Frontend UI foundation
+
+- **Outcome:** (foundation) Angular scaffold boilerplate removed, a UI component library installed and configured, and base design tokens (color, typography, spacing) plus a visual style direction established — no user-facing screens yet.
+- **Change ID:** frontend-ui-foundation
+- **PRD refs:** FR-004, FR-014, FR-015, FR-016 (customization renders against a design-token system), US-01; NFR "public event pages remain readable on mobile and desktop regardless of color/font customization"
+- **Unlocks:** S-01 (auth screens built on the UI library), S-02 (event forms + public page), S-04 (customization overrides the design tokens this foundation establishes)
+- **Prerequisites:** —
+- **Parallel with:** F-01
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** Sequenced before the first UI slice (S-01) because the component library and design tokens are cross-cutting — every screen consumes them and the customization layer (S-04) overrides them. Establishing one coherent visual baseline now avoids each slice reinventing the design language and costly re-theming later, which matters more here because visual ownership is the product differentiator. Minimal enabler only: library + tokens + style direction, no product screens. The specific UI library choice is a `/10x-plan` decision, not a roadmap one.
 - **Status:** ready
 
 ## Slices
@@ -78,11 +92,11 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Outcome:** organizer can register via admin invite (admin sends invite email, organizer sets password via invite link) and log in; admin can log in to the admin panel; authenticated routes are protected by guards
 - **Change ID:** organizer-auth
 - **PRD refs:** FR-001, FR-009, FR-010, FR-011, US-02
-- **Prerequisites:** F-01
+- **Prerequisites:** F-01, F-02
 - **Parallel with:** —
 - **Blockers:** —
 - **Unknowns:** —
-- **Risk:** Sequenced right after F-01 because every organizer-facing slice needs auth. Auth provider choice (managed vs local) and email-sending mechanism for invites are `/10x-plan` decisions, not roadmap ones.
+- **Risk:** Sequenced right after F-01 (data) and F-02 (frontend) because every organizer-facing slice needs both auth and the UI foundation. Auth provider choice (managed vs local) and email-sending mechanism for invites are `/10x-plan` decisions, not roadmap ones.
 - **Status:** proposed
 
 ### S-02: Organizer creates, publishes event with polished public page
@@ -138,7 +152,8 @@ Foundations below assume these are present and do NOT re-scaffold them.
 | Roadmap ID | Change ID                 | Suggested issue title                                        | Ready for `/10x-plan` | Notes                                      |
 | ---------- | ------------------------- | ------------------------------------------------------------ | --------------------- | ------------------------------------------ |
 | F-01       | data-persistence-baseline | Set up PostgreSQL + ORM + migrations on Railway              | yes                   | Run `/10x-plan data-persistence-baseline`  |
-| S-01       | organizer-auth            | Organizer registration (invite flow) and login               | no                    | Depends on F-01                            |
+| F-02       | frontend-ui-foundation    | Remove boilerplate, configure UI library + design tokens     | yes                   | Run `/10x-plan frontend-ui-foundation`     |
+| S-01       | organizer-auth            | Organizer registration (invite flow) and login               | no                    | Depends on F-01, F-02                       |
 | S-02       | event-publish-flow        | Event creation, publishing, and polished public page         | no                    | Depends on S-01                            |
 | S-03       | attendee-signup-loop      | Attendee signup form + organizer signup list                 | no                    | Depends on S-02; north star                |
 | S-04       | event-customization       | Template selection + color/font customization with preview   | no                    | Depends on S-02; parallel with S-03        |
