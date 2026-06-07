@@ -6,7 +6,15 @@
     "build:web": "npx nx build web",
     "start:web": "node dist/apps/web/server/server.mjs",
     "build:api": "npx nx build api",
-    "start:api": "node dist/apps/api/main.js"
+    "start:api": "node dist/apps/api/main.js",
+    "build:migrations": "tsc -p apps/api/tsconfig.migrations.json",
+    "typeorm": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"CommonJS\"}' node --env-file=.env -r ts-node/register ./node_modules/typeorm/cli.js -d apps/api/src/database/data-source.ts",
+    "migration:create": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"CommonJS\"}' node -r ts-node/register ./node_modules/typeorm/cli.js migration:create",
+    "migration:generate": "npm run typeorm -- migration:generate",
+    "migration:run": "npm run typeorm -- migration:run",
+    "migration:revert": "npm run typeorm -- migration:revert",
+    "migration:run:prod": "node ./node_modules/typeorm/cli.js migration:run -d ./dist/apps/api/database/data-source.js",
+    "migration:revert:prod": "node ./node_modules/typeorm/cli.js migration:revert -d ./dist/apps/api/database/data-source.js"
   },
   "private": true,
   "dependencies": {
@@ -20,11 +28,16 @@
     "@angular/router": "~21.2.0",
     "@angular/ssr": "~21.2.0",
     "@nestjs/common": "^11.0.0",
+    "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.0",
     "@nestjs/platform-express": "^11.0.0",
+    "@nestjs/typeorm": "^11.0.1",
     "express": "^4.21.2",
+    "joi": "^17.13.3",
+    "pg": "^8.21.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "~7.8.0"
+    "rxjs": "~7.8.0",
+    "typeorm": "^0.3.30"
   },
   "devDependencies": {
     "@angular-devkit/core": "~21.2.0",
@@ -62,6 +75,7 @@
     "jsdom": "^27.1.0",
     "nx": "22.7.2",
     "prettier": "~3.6.2",
+    "ts-node": "^10.9.2",
     "tslib": "^2.3.0",
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.40.0",
