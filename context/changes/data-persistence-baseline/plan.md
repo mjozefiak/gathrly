@@ -336,7 +336,7 @@ Negligible for an MVP at low QPS. TypeORM opens a connection pool at boot; the `
 
 - [x] 3.4 Local `/api/health` returns 200 `db: 'ok'` (Postgres up) and 503 `db: 'down'` (Postgres stopped) — f22544e
 - [x] 3.5 Railway `DATABASE_URL` is set on the api service and points at the Railway Postgres — f22544e
-- [ ] 3.6 Railway build log shows `build:migrations` (tsc) succeeding — devDeps available at build, `buildCommand` didn't skip install
-- [ ] 3.7 Deploy to `master` runs the predeploy `migration:run:prod` (visible in `railway logs`); `health_check` table exists in the Railway DB
-- [ ] 3.8 Production `/api/health` returns `db: 'ok'`
-- [ ] 3.9 `railway deployment list --service api --environment production --json` shows success
+- [x] 3.6 Railway build log shows `build:migrations` (tsc) succeeding — devDeps available at build, `buildCommand` didn't skip install — f22544e
+- [x] 3.7 Deploy to `master` runs the predeploy `migration:run:prod` (visible in `railway logs`); `health_check` table exists in the Railway DB — f22544e
+- [x] 3.8 Production `/api/health` returns `db: 'ok'` — f22544e
+- [x] 3.9 `railway deployment list --service api --environment production --json` shows success — f22544e

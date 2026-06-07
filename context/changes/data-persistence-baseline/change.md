@@ -1,7 +1,7 @@
 ---
 change_id: data-persistence-baseline
 title: Data persistence baseline — provision PostgreSQL, configure ORM, ready migration workflow
-status: implementing
+status: implemented
 created: 2026-06-07
 updated: 2026-06-07
 archived_at: null
