@@ -23,7 +23,7 @@ jobs:
           node-version: '22'
 
       - name: Install Railway CLI
-        run: npm install -g @railway/cli@3
+        run: npm install -g @railway/cli@4
 
       - name: Deploy API to production
         run: railway up --ci --service api --environment production
