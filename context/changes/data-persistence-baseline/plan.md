@@ -313,29 +313,29 @@ Negligible for an MVP at low QPS. TypeORM opens a connection pool at boot; the `
 
 #### Automated
 
-- [x] 2.1 Migration build passes: `npm run build:migrations`
-- [x] 2.2 Local migrate up applies cleanly: `npm run migration:run`
-- [x] 2.3 Revert is clean and idempotent: `migration:revert` then `migration:run` again
-- [x] 2.4 Compiled prod-path run works: `migration:run:prod` against a fresh DB
-- [x] 2.5 Lint passes: `npx eslint apps/api/src`
+- [x] 2.1 Migration build passes: `npm run build:migrations` — da222a1
+- [x] 2.2 Local migrate up applies cleanly: `npm run migration:run` — da222a1
+- [x] 2.3 Revert is clean and idempotent: `migration:revert` then `migration:run` again — da222a1
+- [x] 2.4 Compiled prod-path run works: `migration:run:prod` against a fresh DB — da222a1
+- [x] 2.5 Lint passes: `npx eslint apps/api/src` — da222a1
 
 #### Manual
 
-- [x] 2.6 `health_check` table exists after `migration:run` and is recorded in the migrations table
-- [x] 2.7 `health_check` table and its migrations-table row are gone after `migration:revert`
+- [x] 2.6 `health_check` table exists after `migration:run` and is recorded in the migrations table — da222a1
+- [x] 2.7 `health_check` table and its migrations-table row are gone after `migration:revert` — da222a1
 
 ### Phase 3: DB-aware health check + Railway deploy wiring
 
 #### Automated
 
-- [ ] 3.1 API build passes: `npx nx build api`
-- [ ] 3.2 API tests pass, including a /health test asserting the `db` field: `npx nx test api`
-- [ ] 3.3 Lint passes: `npx eslint apps/api/src`
+- [x] 3.1 API build passes: `npx nx build api`
+- [x] 3.2 API tests pass, including a /health test asserting the `db` field: `npx nx test api`
+- [x] 3.3 Lint passes: `npx eslint apps/api/src`
 
 #### Manual
 
-- [ ] 3.4 Local `/api/health` returns 200 `db: 'ok'` (Postgres up) and 503 `db: 'down'` (Postgres stopped)
-- [ ] 3.5 Railway `DATABASE_URL` is set on the api service and points at the Railway Postgres
+- [x] 3.4 Local `/api/health` returns 200 `db: 'ok'` (Postgres up) and 503 `db: 'down'` (Postgres stopped)
+- [x] 3.5 Railway `DATABASE_URL` is set on the api service and points at the Railway Postgres
 - [ ] 3.6 Railway build log shows `build:migrations` (tsc) succeeding — devDeps available at build, `buildCommand` didn't skip install
 - [ ] 3.7 Deploy to `master` runs the predeploy `migration:run:prod` (visible in `railway logs`); `health_check` table exists in the Railway DB
 - [ ] 3.8 Production `/api/health` returns `db: 'ok'`

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "build": {
+    "buildCommand": "npm run build:api && npm run build:migrations"
+  },
+  "deploy": {
+    "preDeployCommand": "npm run migration:run:prod",
+    "startCommand": "npm run start:api"
+  }
+}
