@@ -298,16 +298,16 @@ Negligible for an MVP at low QPS. TypeORM opens a connection pool at boot; the `
 
 #### Automated
 
-- [ ] 1.1 API build passes: `npx nx build api`
-- [ ] 1.2 Lint passes: `npx eslint apps/api/src`
-- [ ] 1.3 API unit tests pass: `npx nx test api`
-- [ ] 1.4 App fails fast with a clear error when `DATABASE_URL` is unset
+- [x] 1.1 API build passes: `npx nx build api`
+- [x] 1.2 Lint passes: `npx eslint apps/api/src`
+- [x] 1.3 API unit tests pass: `npx nx test api`
+- [x] 1.4 App fails fast with a clear error when `DATABASE_URL` is unset
 
 #### Manual
 
-- [ ] 1.5 `docker compose up -d` starts Postgres and it accepts connections
-- [ ] 1.6 `npx nx serve api` boots and logs a successful TypeORM connection (no schema sync)
-- [ ] 1.7 Stopping Postgres causes a visible connection error on boot
+- [x] 1.5 `docker compose up -d` starts Postgres and it accepts connections
+- [x] 1.6 `npx nx serve api` boots and logs a successful TypeORM connection (no schema sync)
+- [x] 1.7 Stopping Postgres causes a visible connection error on boot
 
 ### Phase 2: Migration workflow + proof
 
