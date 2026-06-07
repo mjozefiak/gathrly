@@ -298,31 +298,31 @@ Negligible for an MVP at low QPS. TypeORM opens a connection pool at boot; the `
 
 #### Automated
 
-- [x] 1.1 API build passes: `npx nx build api`
-- [x] 1.2 Lint passes: `npx eslint apps/api/src`
-- [x] 1.3 API unit tests pass: `npx nx test api`
-- [x] 1.4 App fails fast with a clear error when `DATABASE_URL` is unset
+- [x] 1.1 API build passes: `npx nx build api` — cc994aa
+- [x] 1.2 Lint passes: `npx eslint apps/api/src` — cc994aa
+- [x] 1.3 API unit tests pass: `npx nx test api` — cc994aa
+- [x] 1.4 App fails fast with a clear error when `DATABASE_URL` is unset — cc994aa
 
 #### Manual
 
-- [x] 1.5 `docker compose up -d` starts Postgres and it accepts connections
-- [x] 1.6 `npx nx serve api` boots and logs a successful TypeORM connection (no schema sync)
-- [x] 1.7 Stopping Postgres causes a visible connection error on boot
+- [x] 1.5 `docker compose up -d` starts Postgres and it accepts connections — cc994aa
+- [x] 1.6 `npx nx serve api` boots and logs a successful TypeORM connection (no schema sync) — cc994aa
+- [x] 1.7 Stopping Postgres causes a visible connection error on boot — cc994aa
 
 ### Phase 2: Migration workflow + proof
 
 #### Automated
 
-- [ ] 2.1 Migration build passes: `npm run build:migrations`
-- [ ] 2.2 Local migrate up applies cleanly: `npm run migration:run`
-- [ ] 2.3 Revert is clean and idempotent: `migration:revert` then `migration:run` again
-- [ ] 2.4 Compiled prod-path run works: `migration:run:prod` against a fresh DB
-- [ ] 2.5 Lint passes: `npx eslint apps/api/src`
+- [x] 2.1 Migration build passes: `npm run build:migrations`
+- [x] 2.2 Local migrate up applies cleanly: `npm run migration:run`
+- [x] 2.3 Revert is clean and idempotent: `migration:revert` then `migration:run` again
+- [x] 2.4 Compiled prod-path run works: `migration:run:prod` against a fresh DB
+- [x] 2.5 Lint passes: `npx eslint apps/api/src`
 
 #### Manual
 
-- [ ] 2.6 `health_check` table exists after `migration:run` and is recorded in the migrations table
-- [ ] 2.7 `health_check` table and its migrations-table row are gone after `migration:revert`
+- [x] 2.6 `health_check` table exists after `migration:run` and is recorded in the migrations table
+- [x] 2.7 `health_check` table and its migrations-table row are gone after `migration:revert`
 
 ### Phase 3: DB-aware health check + Railway deploy wiring
 

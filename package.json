@@ -6,7 +6,15 @@
     "build:web": "npx nx build web",
     "start:web": "node dist/apps/web/server/server.mjs",
     "build:api": "npx nx build api",
-    "start:api": "node dist/apps/api/main.js"
+    "start:api": "node dist/apps/api/main.js",
+    "build:migrations": "tsc -p apps/api/tsconfig.migrations.json",
+    "typeorm": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"CommonJS\"}' node --env-file=.env -r ts-node/register ./node_modules/typeorm/cli.js -d apps/api/src/database/data-source.ts",
+    "migration:create": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"CommonJS\"}' node -r ts-node/register ./node_modules/typeorm/cli.js migration:create",
+    "migration:generate": "npm run typeorm -- migration:generate",
+    "migration:run": "npm run typeorm -- migration:run",
+    "migration:revert": "npm run typeorm -- migration:revert",
+    "migration:run:prod": "node ./node_modules/typeorm/cli.js migration:run -d ./dist/apps/api/database/data-source.js",
+    "migration:revert:prod": "node ./node_modules/typeorm/cli.js migration:revert -d ./dist/apps/api/database/data-source.js"
   },
   "private": true,
   "dependencies": {

@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "rootDir": "src/database",
+    "outDir": "../../dist/apps/api/database",
+    "module": "commonjs"
+  },
+  "include": ["src/database/**/*.ts"]
+}
