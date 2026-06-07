@@ -328,14 +328,14 @@ Negligible for an MVP at low QPS. TypeORM opens a connection pool at boot; the `
 
 #### Automated
 
-- [x] 3.1 API build passes: `npx nx build api`
-- [x] 3.2 API tests pass, including a /health test asserting the `db` field: `npx nx test api`
-- [x] 3.3 Lint passes: `npx eslint apps/api/src`
+- [x] 3.1 API build passes: `npx nx build api` — f22544e
+- [x] 3.2 API tests pass, including a /health test asserting the `db` field: `npx nx test api` — f22544e
+- [x] 3.3 Lint passes: `npx eslint apps/api/src` — f22544e
 
 #### Manual
 
-- [x] 3.4 Local `/api/health` returns 200 `db: 'ok'` (Postgres up) and 503 `db: 'down'` (Postgres stopped)
-- [x] 3.5 Railway `DATABASE_URL` is set on the api service and points at the Railway Postgres
+- [x] 3.4 Local `/api/health` returns 200 `db: 'ok'` (Postgres up) and 503 `db: 'down'` (Postgres stopped) — f22544e
+- [x] 3.5 Railway `DATABASE_URL` is set on the api service and points at the Railway Postgres — f22544e
 - [ ] 3.6 Railway build log shows `build:migrations` (tsc) succeeding — devDeps available at build, `buildCommand` didn't skip install
 - [ ] 3.7 Deploy to `master` runs the predeploy `migration:run:prod` (visible in `railway logs`); `health_check` table exists in the Railway DB
 - [ ] 3.8 Production `/api/health` returns `db: 'ok'`
